@@ -1,104 +1,47 @@
-# fakesteak 
+# futteru 
 
-[![fakesteak asciicast](https://asciinema.org/a/z9gykqvDEfmh9aKVlJtu3LOCs.svg)](https://asciinema.org/a/z9gykqvDEfmh9aKVlJtu3LOCs)
-
-> You know, I know this steak doesn't exist. I know that when I put it in my mouth, the Matrix is telling my brain that it is juicy and delicious. After nine years, you know what I realize? Ignorance is bliss.
-
- -- _Cypher_
+Inspired by [sontek's snowmachine](https://github.com/sontek/snowmachine), 
+I decided to quickly adapt [fakesteak](https://github.com/domsson/fakesteak)'s 
+code to implement something similar in C. 
 
 ## Overview 
 
-My take at an implementation of the [digital character rain](https://en.wikipedia.org/wiki/Matrix_digital_rain) 
-as seen in "The Matrix". 
+Simply makes a couple different 'snow like' characters fall down your 
+terminal in two layers. No Unicode characters, just extended ASCII. 
 
-Some things you might like about fakesteak:
+Customization can be done by adjusting the characters and/or colors 
+right in the source.
 
- - Small footprint (low on RAM and disk usage)
- - Good performance (low on CPU usage)
- - Looks pretty close to the original (fading, glitches)
- - Basic customization via command line options
- - No dependencies (not even ncurses)
- - Clean, well commented code
- - Public Domain
-
-Some things that might rub you the wrong way:
-
- - No Japanese characters (for simplicity's sake)
- - Not cross-platform (no Win/Mac)
-
-Successfully tested on Linux (urxvt, xterm, lxterm, uxterm) and FreeBSD (st). 
-Feedback on compatibility with your OS / distro / terminal is very welcome; 
-you can open an issue to let me know.
+Code is still a bit messy, not polished yet. Should work though.
+Hopefully. :-)
 
 ## Dependencies / Requirements
 
 - Terminal that supports 256 colors ([8 bit color mode](https://en.wikipedia.org/wiki/ANSI_escape_code#8-bit))
 - Requires `TIOCGWINSZ` to be supported (to query the terminal size)
-- Requires Make for building
 
 ## Building / Running
 
-You can just run `make`. After that, you should be able to run it from the `bin` directory:
+You can compile it with the provided `build` script.
 
-    make
-    ./bin/fakesteak
+    chmod +x ./build
+    ./build
+    ./bin/futteru
 
 ## Usage
 
-    fakesteak [OPTIONS...]
+    futteru [OPTIONS...]
 
 Options:
 
   - `-b`: use black background color
-  - `-d`: drops ratio ([1..100], default is 10)
-  - `-e`: error ratio ([1..100], default is 2)
+  - `-d`: density factor ([1..100], default is 10)
   - `-h`: print help text and exit
   - `-r`: seed for the random number generator
   - `-s`: speed factor ([1..100], default is 10)
   - `-V`: print version information and exit
 
-The drops ratio determines the density of the matrix, while the error ratio influences
-the number of glitches in the matrix (randomly changing characters). 
-
-## Performance
-
-Since the main focus of `fakesteak` is performance, I tried comparing it to other popular 
-implementations. **Note, however, that this comparison is inaccurate and unfair at best**, 
-mainly for the following reasons:
-
-- All projects have different design goals, feature sets and visual fidelity
-- The measurements are just rounded estimates aquired from `top` and `smem -tk` (PSS)
-
-For example, `fakesteak` is \*nix only and does not support Japanese Katakana characters, 
-while most other projects are cross-platform and do have Kana support. Also, note how `cxxmatrix`, 
-for example, focuses on visuals, rendering three layers of rain with a glow effect. 
-See [this reddit thread](https://www.reddit.com/r/unixporn/comments/ju62xa/oc_fakesteak_yet_another_matrix_rain_generator/gcdu5tl/) 
-for further discussion.
-
-All projects were run in a 1920 x 1080 px urxvt terminal with options that give _somewhat_ 
-similar visual results. At least the speed of the rain is almost exactly the same for all, 
-but density and visual fidelity (Kanas, fading, glow, etc) do differ. See the "arguments" 
-column below to see how I've ran each implementation.
-
-|                         | CPU      | RAM    | disk  | Lang.    | arguments                                          |
-|-------------------------|----------|--------|-------|----------|----------------------------------------------------|
-| fakesteak<br>v0.2.0     |     ~5 % | ~170 K |  19 K | C        | `-d 15`                                            |
-|   cmatrix<br>v2.0       |     ~8 % | ~900 K |  22 K | C        | `-b -u 10`                                         |
-|   tmatrix<br>v1.3       |     ~9 % | ~2.0 M |  87 K | C++      | `-g 30,70 -f 1,1 -c default`                       |
-| cxxmatrix<br>2020-11-18 |  ~13\* % | ~4.5 M | 114 K | C++      | `-s rain-forever --frame-rate=10 --error-rate=0.1` |
-| unimatrix<br>2018-01-09 |    ~15 % | ~9.4 M |  26 K | Python   | `-s 90 -l=o -f`                                    |
-
-\*Note): cxxmatrix behaves a bit odd on my system. If the terminal window is visible, 
-it uses about 13% CPU. If it isn't (for example, by switching to another workspace), 
-the CPU load doubles.
-
 ## Support
 
 [![ko-fi](https://www.ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/L3L22BUD8)
 
-## Related Projects
-
-- [cmatrix](https://github.com/abishekvashok/cmatrix)
-- [tmatrix](https://github.com/M4444/TMatrix)
-- [unimatrix](https://github.com/will8211/unimatrix)
-- [cxxmatrix](https://github.com/akinomyoga/cxxmatrix)

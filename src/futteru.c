@@ -107,7 +107,6 @@ matrix_s;
 
 typedef struct options
 {
-	char   *glyphs;
 	uint8_t speed;         // speed factor
 	uint8_t drops;         // drops factor
 	time_t  rands;         // seed for rand()
@@ -126,7 +125,7 @@ parse_args(int argc, char **argv, options_s *opts)
 {
 	opterr = 0;
 	int o;
-	while ((o = getopt(argc, argv, "bfd:e:g:hr:s:V")) != -1)
+	while ((o = getopt(argc, argv, "bfd:e:hr:s:V")) != -1)
 	{
 		switch (o)
 		{
@@ -138,9 +137,6 @@ parse_args(int argc, char **argv, options_s *opts)
 				break;
 			case 'd':
 				opts->drops = atoi(optarg);
-				break;
-			case 'g':
-				opts->glyphs = optarg;
 				break;
 			case 'h':
 				opts->help = 1;
@@ -168,7 +164,7 @@ help(const char *invocation, FILE *where)
 	fprintf(where, "\t%s [OPTIONS...]\n\n", invocation);
 	fprintf(where, "OPTIONS\n");
 	fprintf(where, "\t-b\tuse black background color\n");
-	fprintf(where, "\t-d\tdrops ratio (%"PRIu8" .. %"PRIu8", default: %"PRIu8")\n",
+	fprintf(where, "\t-d\tdensity factor (%"PRIu8" .. %"PRIu8", default: %"PRIu8")\n",
 		       	DROPS_FACTOR_MIN, DROPS_FACTOR_MAX, DROPS_FACTOR_DEF);
 	fprintf(where, "\t-h\tprint this help text and exit\n");
 	fprintf(where, "\t-r\tseed for the random number generator\n");

@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+gcc -Wall -Og -o bin/futteru src/futteru.c -lm

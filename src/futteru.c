@@ -23,8 +23,7 @@
 
 #define COLOR_BG   "\x1b[48;5;0m"   // background color, if to be used
 #define COLOR_FG_0 "\x1b[38;5;15m"  // LAYER_FG: white
-#define COLOR_FG_1 "\x1b[38;5;250m" // LAYER_MG: very light grey
-#define COLOR_FG_2 "\x1b[38;5;253m" // LAYER_BG: light grey
+#define COLOR_FG_1 "\x1b[38;5;249m" // LAYER_BG: light grey
 
 // these can be tweaked if need be
 
@@ -56,7 +55,6 @@
 
 #define LAYER_FG  1
 #define LAYER_BG  2
-#define LAYER_ALL 3
 
 #define NS_PER_SEC 1000000000
 
@@ -95,7 +93,7 @@ static volatile int running;   // controls running of the main loop
 //   |   |   |   |   |   |   |   |
 //   0   0   0   0   0   0   0   0
 //  '-------------' '-------------'
-//     BACKGROUND     FOREGROUND
+//    BG GLYPH IDX    FG GLYPH IDX
 
 typedef struct matrix
 {
@@ -391,7 +389,6 @@ mat_print(matrix_s *mat)
 		value = mat->data[i];
 		fg = val_get_fg(value);
 		bg = val_get_bg(value);
-
 
 		if (fg)
 		{
@@ -701,7 +698,6 @@ main(int argc, char **argv)
 	// initialize the matrix
 	matrix_s mat = { 0 }; 
 	mat_init(&mat, ws.ws_row, ws.ws_col, drops_ratio);
-	mat_rain(&mat);
 
 	// prepare the terminal for our shenanigans
 	cli_setup(&opts);
